@@ -3,14 +3,12 @@ package agh.ics.oop;
 import java.util.HashMap;
 
 public abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObserver{
-    protected Vector2d upperRightBorder;
-    protected Vector2d lowerLeftBorder;
     protected HashMap<Vector2d, IMapElement> mapElements;
+    protected MapBoundary mapBoundary;
 
-    AbstractWorldMap(int width, int height){
-        upperRightBorder = new Vector2d(width, height);
-        lowerLeftBorder = new Vector2d(0, 0);
+    AbstractWorldMap(){
         mapElements = new HashMap<Vector2d, IMapElement>();
+        mapBoundary = new MapBoundary(this);
     }
 
     public void positionChanged(Vector2d oldPosition, Vector2d newPosition) {
@@ -21,7 +19,13 @@ public abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObse
 
     public String toString(){
         MapVisualizer mapVisualizer = new MapVisualizer(this);
-        return mapVisualizer.draw(lowerLeftBorder, upperRightBorder);
+        if(mapBoundary.xElements.isEmpty()){
+            return mapVisualizer.draw(new Vector2d(0,0), new Vector2d(0,0));
+        }
+        return mapVisualizer.draw(new Vector2d(mapBoundary.xElements.firstKey().x,
+                        mapBoundary.yElements.firstKey().y),
+                new Vector2d(mapBoundary.xElements.lastKey().x,
+                        mapBoundary.yElements.lastKey().y));
     }
 
     public boolean isOccupied(Vector2d position) {
@@ -31,5 +35,4 @@ public abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObse
     public Object objectAt(Vector2d position) {
         return mapElements.get(position);
     }
-
 }

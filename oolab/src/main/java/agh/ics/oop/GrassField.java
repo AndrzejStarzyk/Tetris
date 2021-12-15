@@ -7,12 +7,12 @@ public class GrassField extends AbstractWorldMap implements IWorldMap{
     private final Vector2d grassUpperRightBorder;
 
     public GrassField(int numberOfGrassFields){
-        super((int)(sqrt(numberOfGrassFields*10)), (int)(sqrt(numberOfGrassFields*10)));
+        super();
         int pom = (int)(sqrt(numberOfGrassFields*10));
         grassUpperRightBorder = new Vector2d(pom, pom);
-        upperRightBorder = new Vector2d(pom, pom);
 
         for(int i=0;i<numberOfGrassFields;i++){
+
             this.placeGrass();
         }
     }
@@ -28,32 +28,31 @@ public class GrassField extends AbstractWorldMap implements IWorldMap{
             v = new Vector2d(random.nextInt(grassUpperRightBorder.x), random.nextInt(grassUpperRightBorder.y));
         }
         while (this.isOccupied(v));
+
         Grass grass = new Grass(v);
         grass.setMap(this);
         mapElements.put(grass.getPosition(), grass);
+        mapBoundary.xElements.put(v, grass);
+        mapBoundary.yElements.put(v, grass);
         return true;
     }
 
-    public boolean place(Animal animal) {
+    public boolean place(Animal animal) throws IllegalArgumentException{
         Vector2d position = animal.getPosition();
 
-        if(this.canMoveTo(position)){
-            if(isOccupied(position)){
-                this.placeGrass();
-                mapElements.remove(position);
-            }
-            animal.setMap(this);
-            animal.addObserver(this);
-            mapElements.put(animal.getPosition(), animal);
-            this.updateBorder(position);
-            return true;
+        if(!this.canMoveTo(position)){
+            throw new IllegalArgumentException("Animal can't be placed on position " + position.toString());
         }
-        return false;
-    }
-
-    private void updateBorder(Vector2d position){
-        upperRightBorder = upperRightBorder.upperRight(position);
-        lowerLeftBorder = lowerLeftBorder.lowerLeft(position);
+        if(isOccupied(position)){
+            this.placeGrass();
+            mapElements.remove(position);
+        }
+        animal.addObserver(this);
+        animal.addObserver(mapBoundary);
+        mapElements.put(animal.getPosition(), animal);
+        mapBoundary.xElements.put(animal.getPosition(), animal);
+        mapBoundary.yElements.put(animal.getPosition(), animal);
+        return true;
     }
 
     public void positionChanged(Vector2d oldPosition, Vector2d newPosition) {
@@ -62,6 +61,6 @@ public class GrassField extends AbstractWorldMap implements IWorldMap{
             mapElements.remove(newPosition);
         }
         super.positionChanged(oldPosition, newPosition);
-        this.updateBorder(newPosition);
+        mapBoundary.positionChanged(oldPosition, newPosition);
     }
 }

@@ -25,5 +25,7 @@ public abstract class AbstractWorldMapElement{
         return this.getPosition().equals(position);
     }
 
+    void comparator(){
 
+    }
 }

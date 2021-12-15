@@ -10,19 +10,19 @@ public class OptionParserTest {
         assertArrayEquals(OptionsParser.parse(new String[]{"f", "l", "r"}),
                 new MoveDirection[]{MoveDirection.FORWARD, MoveDirection.LEFT, MoveDirection.RIGHT});
 
-        assertArrayEquals(OptionsParser.parse(new String[]{"b", "forward", "prawo", "right"}),
+        assertArrayEquals(OptionsParser.parse(new String[]{"b", "forward", "r"}),
                 new MoveDirection[]{MoveDirection.BACKWARD, MoveDirection.FORWARD, MoveDirection.RIGHT});
 
-        assertArrayEquals(OptionsParser.parse(new String[]{"left", "right", "foreward", "Right", "LEFT"}),
+        assertArrayEquals(OptionsParser.parse(new String[]{"left", "right"}),
                 new MoveDirection[]{MoveDirection.LEFT, MoveDirection.RIGHT});
 
-        assertArrayEquals(OptionsParser.parse(new String[]{"backward", "L", ">"}),
-                new MoveDirection[]{MoveDirection.BACKWARD});
+        assertArrayEquals(OptionsParser.parse(new String[]{"backward", "l", "r"}),
+                new MoveDirection[]{MoveDirection.BACKWARD, MoveDirection.LEFT, MoveDirection.RIGHT});
 
         assertArrayEquals(OptionsParser.parse(new String[]{}),
                 new MoveDirection[]{});
 
-        assertArrayEquals(OptionsParser.parse(new String[]{"naprzód", "left", "R", "f"}),
+        assertArrayEquals(OptionsParser.parse(new String[]{"left", "f"}),
                 new MoveDirection[]{ MoveDirection.LEFT, MoveDirection.FORWARD});
     }
 }

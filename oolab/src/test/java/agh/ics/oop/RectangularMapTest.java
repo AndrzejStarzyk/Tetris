@@ -8,7 +8,7 @@ class RectangularMapTest {
 
     @Test
     void canMoveTo() {
-        RectangularMap testMap = new RectangularMap(4, 5);
+        RectangularMap testMap = new RectangularMap(5, 6);
         Animal animal1 = new Animal(testMap, new Vector2d(1, 1), MapDirection.EAST);
         Animal animal2 = new Animal(testMap, new Vector2d(0, 5), MapDirection.SOUTH);
 
@@ -22,7 +22,7 @@ class RectangularMapTest {
 
     @Test
     void place() {
-        RectangularMap testMap = new RectangularMap(4, 5);
+        RectangularMap testMap = new RectangularMap(5, 6);
         Animal animal1 = new Animal(testMap, new Vector2d(1, 1), MapDirection.EAST);
         Animal animal2 = new Animal(testMap, new Vector2d(0, 5), MapDirection.SOUTH);
 
@@ -32,7 +32,7 @@ class RectangularMapTest {
 
     @Test
     void objectAt() {
-        RectangularMap testMap = new RectangularMap(4, 5);
+        RectangularMap testMap = new RectangularMap(5, 6);
         Animal animal1 = new Animal(testMap, new Vector2d(1, 1), MapDirection.EAST);
         Animal animal2 = new Animal(testMap, new Vector2d(0, 5), MapDirection.SOUTH);
 
